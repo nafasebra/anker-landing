@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { ProductStoreProvider } from "./store/product-store-provider";
 import { useBrowserCapabilities } from "./hooks/use-browser-capabilities";
 import { useProductScroll } from "./hooks/use-product-scroll";
@@ -22,12 +23,12 @@ function ProductPage() {
   const { connector, hotspot, onAnchor } = useProductAnchor();
   return (
     <>
-      <a
+      <Link
         className="fixed -top-[100px] left-5 z-[100] bg-[#91bfff] p-[15px] text-[#111] focus:top-[15px]"
         href="#features"
       >
         Skip to product features
-      </a>
+      </Link>
       <SiteHeader />
       <ProductViewport onAnchor={onAnchor} />
       <main ref={root}>

@@ -41,8 +41,14 @@ Reduced motion keeps a stable assembled composition and disables pointer tilt an
 
 ## Validation
 
+### R3F Timer compatibility patch
+
+R3F is pinned to `9.8.2` with a pnpm patch registered in `pnpm-workspace.yaml`. Its internal `state.clock` interface is backed by `THREE.Timer`, which removes the Clock deprecation warning while preserving the timing API used by Drei and R3F's demand/manual frame loops. This addresses the [upstream Clock migration](https://github.com/pmndrs/react-three-fiber/issues/3741) without changing renderer majors or filtering console messages. The patch covers development, production, and ESM bundles and reapplies on `pnpm install`.
+
+Run `pnpm test:timer` to check root creation without the Clock warning and verify delta/elapsed timing, start/stop, and frameloop transitions. Remove or update the version-specific patch when upgrading R3F.
+
 Run `npm run format` to format the project, or `npm run format:check` to check formatting. Generated files and static assets are excluded through `.prettierignore`.
 
-Run `npm run lint`, `npm run typecheck`, and `npm run build` for validation. There is no test runner configured in this project.
+Run `npm run lint`, `npm run typecheck`, `npm run test:timer`, and `npm run build` for validation. The focused Timer regression check uses Node's built-in assertions.
 
 Production build includes TypeScript checks. The root-level `types/` folder contains stale generated starter validators with incorrect relative imports, so it is excluded from TypeScript; Next.js continues to generate and validate the current route types under `.next/types`.

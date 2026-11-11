@@ -34,10 +34,10 @@ export const FeatureCallout = memo(function FeatureCallout({
         <circle ref={hotspot} r=".36" fill="#91bfff" />
       </svg>
       <div
-        className="absolute top-[49%] left-[60%] max-w-[35%] motion-safe:animate-label-in md:top-[68%] md:left-[79%] md:max-w-[18%] [&_p]:mt-[5px] [&_p]:hidden [&_p]:text-[10px] [&_p]:leading-normal [&_p]:text-[#8b929e] md:[&_p]:block"
+        className="absolute top-[46%] left-[60%] max-w-[35%] motion-safe:animate-label-in md:top-[68%] md:left-[79%] md:max-w-[18%] [&_p]:mt-[5px] [&_p]:hidden [&_p]:text-sm [&_p]:leading-normal [&_p]:text-[#8b929e] md:[&_p]:block"
         key={active}
       >
-        <span className={"text-[7px] leading-[1.7] tracking-[1.6px] text-[#9b9da3] md:text-[8px]"}>
+        <span className={"text-sm leading-[1.7] tracking-[1.6px] text-[#9b9da3]"}>
           {features[active].detail}
         </span>
         <p>{features[active].note}</p>

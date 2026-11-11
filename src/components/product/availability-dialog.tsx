@@ -25,7 +25,7 @@ export function AvailabilityDialog({ open, onClose }: { open: boolean; onClose: 
       >
         Find your sound.
       </h2>
-      <p className="mb-6 text-[13px] leading-[1.8] text-[#a1a8b2]">
+      <p className="mb-6 text-sm leading-[1.8] text-[#a1a8b2]">
         Availability varies by region. Visit Soundcore to find your local store and current product
         availability.
       </p>
@@ -34,7 +34,7 @@ export function AvailabilityDialog({ open, onClose }: { open: boolean; onClose: 
       </PrimaryLink>
       <button
         autoFocus
-        className="absolute top-[17px] right-[22px] text-[11px] text-[#aaa]"
+        className="absolute top-[17px] right-[22px] text-sm text-[#aaa]"
         onClick={() => onClose()}
       >
         Close ×

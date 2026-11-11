@@ -21,3 +21,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Never manually minify source code.
 - Format all modified files before completing a task.
 - Preserve existing behavior, styling, and animations.
+
+## Typography
+
+- All visible website text must be at least Tailwind `text-sm` (0.875rem / 14px), including labels, captions, navigation, footers, and loading/fallback text.
+- Never add `text-xs`, arbitrary font sizes below 14px, or responsive/state/child variants that reduce text below `text-sm`.
+- Adjust spacing, wrapping, and responsive layouts to fit readable text. Apply this minimum to all new text.

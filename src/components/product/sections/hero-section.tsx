@@ -1,4 +1,7 @@
-import { sectionClass, tinyLabelClass } from "../styles";
+import Link from "next/link";
+const sectionClass =
+  "relative h-svh min-h-[780px] px-[6%] pointer-events-none md:min-h-[700px] md:px-[7.1%] [&_a]:pointer-events-auto [&_button]:pointer-events-auto";
+const tinyLabelClass = "text-sm leading-[1.7] tracking-[1.6px] text-[#9b9da3]";
 import { Eyebrow, StatusDot, PrimaryLink } from "../ui";
 import { ProductBackground } from "../product-background";
 export function HeroSection() {
@@ -24,12 +27,9 @@ export function HeroSection() {
             Big sound<span className="text-blue-400">.</span>
           </span>
         </h1>
-        <p className="mt-5 ml-[10%] text-[11px] tracking-[-.1px] text-[#a0a2a6] md:absolute md:top-[48%] md:right-0 md:m-0 md:text-[13px]">
-          Meet the Soundcore R50i.
-        </p>
       </div>
-      <div className="absolute inset-x-[6%] bottom-[12%] z-20 flex items-center justify-between md:inset-x-[7.1%] md:bottom-[13.5%] md:items-end">
-        <div className="hidden md:block [&_p]:mt-[15px] [&_p]:text-lg [&_p]:leading-normal [&_p]:tracking-[-.4px] [&_p]:text-[#d4d4d6]">
+      <div className="absolute inset-x-[6%] bottom-[12%] z-20 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-end md:inset-x-[7.1%] md:bottom-[13.5%] md:items-end">
+        <div className="hidden lg:block [&_p]:mt-[15px] [&_p]:text-lg [&_p]:leading-normal [&_p]:tracking-[-.4px] [&_p]:text-[#d4d4d6]">
           <span className={tinyLabelClass}>LESS TO CARRY. MORE TO FEEL.</span>
           <p>
             A small escape.
@@ -41,24 +41,20 @@ export function HeroSection() {
           <PrimaryLink href="#reveal">
             Explore the sound <span aria-hidden="true">↗</span>
           </PrimaryLink>
-          <a
-            className="flex gap-[30px] text-[10px] text-[#a4a6ab] hover:text-white"
+          <Link
+            className="flex gap-[30px] text-sm text-[#a4a6ab] hover:text-white"
             href="#features"
           >
             View features <span>↓</span>
-          </a>
-        </div>
-        <div className="relative mb-[38px] pl-[19px] text-[7px] tracking-[1.2px] text-[#b6b8be] md:mb-[35px] md:text-[8px] [&_small]:mt-[9px] [&_small]:block [&_small]:text-[8px] [&_small]:text-[#62666e]">
-          <span className="absolute -top-px left-0 size-2.5 rounded-full border border-[#64666a] bg-[#17191c] shadow-[0_0_0_3px_#ffffff06]" />{" "}
-          GRAPHITE BLACK<small>ANKER / A3949</small>
+          </Link>
         </div>
       </div>
-      <a
-        className="absolute bottom-[30px] left-[6%] z-20 flex items-center gap-[14px] text-[6px] tracking-[1.7px] text-[#777c83] md:bottom-[35px] md:left-[7.1%] md:text-[7px] [&>span:last-child]:text-[#c1c5cc]"
+      <Link
+        className="absolute bottom-[30px] left-[6%] z-20 flex items-center gap-[14px] tracking-[1.7px] text-[#777c83] md:bottom-[35px] md:left-[7.1%] [&>span:last-child]:text-[#c1c5cc]"
         href="#reveal"
       >
         <span className="h-px w-8 bg-[#777c83]" /> SCROLL TO DISCOVER <span>↓</span>
-      </a>
+      </Link>
       <span
         className="absolute right-[4%] bottom-2 text-[120px] leading-none font-semibold tracking-[-14px] text-[#ffffff02] md:text-[180px]"
         aria-hidden="true"

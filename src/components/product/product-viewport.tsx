@@ -25,7 +25,7 @@ export const ProductViewport = memo(function ProductViewport({ onAnchor }: Produ
         </div>
       )}
       {available === false && (
-        <div className="absolute inset-x-[8%] top-[16%] bottom-[45%] flex items-center justify-center md:inset-x-[20%] md:top-[25%] md:bottom-[12%] [&_img]:max-h-full [&_img]:w-full [&_span]:absolute [&_span]:bottom-0 [&_span]:text-[7px] [&_span]:text-[#7d838b] md:[&_span]:text-[9px]">
+        <div className="absolute inset-x-[8%] top-[16%] bottom-[45%] flex items-center justify-center md:inset-x-[20%] md:top-[25%] md:bottom-[12%] [&_img]:max-h-full [&_img]:w-full [&_span]:absolute [&_span]:bottom-0 [&_span]:text-sm [&_span]:text-[#7d838b]">
           <Image
             width={800}
             height={650}
@@ -38,7 +38,7 @@ export const ProductViewport = memo(function ProductViewport({ onAnchor }: Produ
       {available !== false && (
         <div
           ref={loader}
-          className="absolute top-[62%] left-1/2 flex -translate-x-1/2 items-center gap-2 text-[9px] tracking-[1px] whitespace-nowrap text-[#a5b3c6]"
+          className="absolute top-[62%] left-1/2 flex -translate-x-1/2 items-center gap-2 text-sm tracking-[1px] whitespace-nowrap text-[#a5b3c6]"
           role={loaded ? undefined : "status"}
           aria-hidden={loaded}
         >
