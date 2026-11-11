@@ -24,28 +24,40 @@ export const ProductViewport = memo(function ProductViewport({ onAnchor }: Produ
           <ProductScene onAnchor={onAnchor} />
         </div>
       )}
-      {available === false && (
-        <div className="absolute inset-x-[8%] top-[16%] bottom-[45%] flex items-center justify-center md:inset-x-[20%] md:top-[25%] md:bottom-[12%] [&_img]:max-h-full [&_img]:w-full [&_span]:absolute [&_span]:bottom-0 [&_span]:text-sm [&_span]:text-[#7d838b]">
+      <div
+        ref={available === false ? undefined : loader}
+        className="absolute inset-0"
+        aria-hidden={available !== false && loaded}
+      >
+        <div className="absolute inset-x-[8%] top-[16%] bottom-[45%] flex items-center justify-center md:inset-x-[20%] md:top-[25%] md:bottom-[12%]">
           <Image
             width={800}
             height={650}
             src="/product-fallback.svg"
             alt="Black Soundcore charging case and earbuds"
+            preload
+            className="h-full w-full object-contain"
           />
-          <span>Product preview · 3D is unavailable on this device</span>
         </div>
-      )}
-      {available !== false && (
         <div
-          ref={loader}
-          className="absolute top-[62%] left-1/2 flex -translate-x-1/2 items-center gap-2 text-sm tracking-[1px] whitespace-nowrap text-[#a5b3c6]"
-          role={loaded ? undefined : "status"}
-          aria-hidden={loaded}
+          className="absolute inset-x-6 top-[57%] flex items-center justify-center gap-2 text-center text-sm tracking-[1px] text-[#a5b3c6] md:top-auto md:bottom-[9%]"
+          role={available !== false && !loaded ? "status" : undefined}
         >
-          <span className="size-3 rounded-full border border-[#91bfff33] border-t-[#91bfff] motion-safe:animate-spin" />
-          Preparing your sound<span className="text-white/25"> / 3D</span>
+          {available === false ? (
+            <span>Product preview · 3D is unavailable on this device</span>
+          ) : (
+            <>
+              <span
+                aria-hidden="true"
+                className="size-3 shrink-0 rounded-full border border-[#91bfff33] border-t-[#91bfff] motion-safe:animate-spin"
+              />
+              <span>
+                Preparing your sound<span className="text-white/25"> / 3D</span>
+              </span>
+            </>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 });
