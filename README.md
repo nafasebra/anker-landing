@@ -5,16 +5,21 @@ A Next.js / React / TypeScript landing page styled with Tailwind CSS, with one c
 ## Run locally
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Open http://localhost:3000. For production, run `npm run build` and `npm start`.
 
 ## Edit the experience
 
-- `src/components/product-experience.tsx`: semantic page content, editable feature copy, navigation, availability dialog, and projected HTML/SVG callouts.
-- `src/components/product-scene.tsx`: scene poses, lighting, model animation, projection, and section-scoped rotation controls.
+- `src/components/product/product-experience.tsx`: connects the scroll state, scene, sections, and overlays.
+- `src/components/product/sections/`: hero, reveal, feature storytelling, exploration controls, and final product section. Dialog state stays with the final section.
+- `src/components/product/hooks/`: browser capabilities, scroll listeners, callout positioning, and scene visibility.
+- `src/components/product/scene/`: canvas, model setup, animation helpers, pose data, lighting, and the scene error boundary.
+- `src/components/product/features.ts`: editable feature copy; `styles.ts` and `ui.tsx` share the existing Tailwind utilities and repeated UI elements.
+- `src/components/product/types.ts`: shared scene and animation contracts.
+- `src/components/product/store/`: a page-scoped Zustand store for scroll progress, rotation/reset controls, scene loading/errors, WebGL support, and reduced-motion settings. Components subscribe through selectors; the Three.js frame loop reads the store directly and subscribes to invalidate demand rendering. Dialog state and DOM refs remain local.
 - `src/app/globals.css`: Tailwind import, theme tokens, shared accessibility defaults, and the label entrance animation. Component layouts and responsive styling use Tailwind utilities in the JSX.
 - `public/models/soundcore-r50i.glb`: supplied asset served at the requested public URL. The original source asset is retained in `src/app`.
 - `public/product-fallback.svg`: local static illustration for unsupported WebGL or loading errors.
@@ -30,5 +35,9 @@ The hero starts with the lid open and a slight tilt to show the earbuds resting 
 Rendering uses demand mode, a capped 1.5 pixel ratio, a small locally generated environment map, no postprocessing, and a visibility listener to pause hidden-tab rendering. Reduced motion keeps a stable assembled composition and disables pointer tilt and entrance effects. Mobile places copy below the model, fits the model to the available viewport width, and preserves vertical touch scrolling. Rotation also has keyboard-accessible arrow buttons on desktop, plus a reset control.
 
 ## Validation
+
+Run `npm run format` to format the project, or `npm run format:check` to check formatting. Generated files and static assets are excluded through `.prettierignore`.
+
+Run `npm run lint`, `npm run typecheck`, and `npm run build` for validation. There is no test runner configured in this project.
 
 Production build includes TypeScript checks. The root-level `types/` folder contains stale generated starter validators with incorrect relative imports, so it is excluded from TypeScript; Next.js continues to generate and validate the current route types under `.next/types`.
