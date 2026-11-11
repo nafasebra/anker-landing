@@ -1,5 +1,6 @@
 import { sectionClass, tinyLabelClass } from "../styles";
 import { Eyebrow, StatusDot, PrimaryLink } from "../ui";
+import { ProductBackground } from "../product-background";
 export function HeroSection() {
   return (
     <section
@@ -7,6 +8,7 @@ export function HeroSection() {
       id="overview"
       aria-labelledby="hero-title"
     >
+      <ProductBackground chapter="hero" />
       <div className="relative z-[11]">
         <Eyebrow>
           <StatusDot /> SOUNDCORE R50i <span className="text-white/25">/</span> TRUE WIRELESS

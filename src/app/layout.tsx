@@ -30,13 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} h-full antialiased`}
     >
-      <body className="relative isolate flex min-h-full flex-col">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 -z-10 bg-[linear-gradient(180deg,#10111345,#10111380),url('/adrien-olichon-RCAhiGJsUUE-unsplash.jpg')] bg-cover bg-center bg-no-repeat"
-        />
-        {children}
-      </body>
+      <body className="relative isolate flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

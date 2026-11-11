@@ -6,17 +6,18 @@ export type ProductState = SceneMotion & {
   reduced: boolean;
   supported: boolean | null;
   loaded: boolean;
+  revealed: boolean;
   sceneFailed: boolean;
+  maxDpr: number;
 };
 
 type ProductActions = {
   setPhase: (phase: number) => void;
   setPointer: (pointerX: number, pointerY: number) => void;
-  rotateView: (direction: number) => void;
-  resetView: () => void;
-  setCapabilities: (supported: boolean, reduced: boolean) => void;
+  setCapabilities: (supported: boolean, reduced: boolean, lowPower?: boolean) => void;
   setReducedMotion: (reduced: boolean) => void;
   markLoaded: () => void;
+  markRevealed: () => void;
   markSceneFailed: () => void;
 };
 
@@ -28,19 +29,33 @@ export function createProductStore() {
     phase: 0,
     pointerX: 0,
     pointerY: 0,
-    reset: 0,
     reduced: false,
     supported: null,
     loaded: false,
+    revealed: false,
     sceneFailed: false,
-    setPhase: (phase) => set({ phase: Math.min(7, Math.max(0, phase)) }),
-    setPointer: (pointerX, pointerY) => set({ pointerX, pointerY }),
-    rotateView: (direction) => set((state) => ({ pointerX: state.pointerX + direction * 0.4 })),
-    resetView: () => set((state) => ({ reset: state.reset + 1, pointerX: 0, pointerY: 0 })),
-    setCapabilities: (supported, reduced) => set({ supported, reduced }),
-    setReducedMotion: (reduced) => set({ reduced }),
-    markLoaded: () => set({ loaded: true }),
-    markSceneFailed: () => set({ sceneFailed: true }),
+    maxDpr: 1.5,
+    setPhase: (phase) =>
+      set((state) => {
+        const next = Math.min(7, Math.max(0, phase));
+        return Number.isFinite(next) && next !== state.phase ? { phase: next } : state;
+      }),
+    setPointer: (pointerX, pointerY) =>
+      set((state) =>
+        state.pointerX === pointerX && state.pointerY === pointerY ? state : { pointerX, pointerY },
+      ),
+    setCapabilities: (supported, reduced, lowPower = false) =>
+      set((state) => {
+        const maxDpr = lowPower ? 1.25 : 1.5;
+        return state.supported === supported && state.reduced === reduced && state.maxDpr === maxDpr
+          ? state
+          : { supported, reduced, maxDpr };
+      }),
+    setReducedMotion: (reduced) =>
+      set((state) => (state.reduced === reduced ? state : { reduced })),
+    markLoaded: () => set((state) => (state.loaded ? state : { loaded: true })),
+    markRevealed: () => set((state) => (state.revealed ? state : { revealed: true })),
+    markSceneFailed: () => set((state) => (state.sceneFailed ? state : { sceneFailed: true })),
   }));
 }
 
@@ -48,8 +63,7 @@ export const selectAvailable = (state: ProductStore) =>
   state.sceneFailed ? false : state.supported;
 export const selectActiveFeature = (state: ProductStore) =>
   Math.min(features.length - 1, Math.max(0, Math.round(state.phase - 2)));
-export const selectIsExploring = (state: ProductStore) => state.phase >= 5.65 && state.phase < 6.65;
 export const selectNavigationVisible = (state: ProductStore) =>
   state.phase > 1.55 && state.phase < 5.6;
 export const selectCalloutVisible = (state: ProductStore) =>
-  Boolean(selectAvailable(state) && state.loaded && state.phase > 1.65 && state.phase < 5.55);
+  Boolean(selectAvailable(state) && state.revealed && state.phase > 1.65 && state.phase < 5.55);

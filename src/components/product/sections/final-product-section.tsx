@@ -3,12 +3,14 @@ import { useCallback, useState } from "react";
 import { AvailabilityDialog } from "../availability-dialog";
 import { sectionClass } from "../styles";
 import { Eyebrow, StatusDot, PrimaryButton } from "../ui";
+import { ProductBackground } from "../product-background";
 export function FinalProductSection() {
   const [open, setOpen] = useState(false);
   const closeDialog = useCallback(() => setOpen(false), []);
   return (
     <>
       <section id="product" className={sectionClass} aria-labelledby="product-title">
+        <ProductBackground chapter="final" />
         <div className="absolute top-[54%] left-[7%] z-20 md:top-[24%] md:left-[58%]">
           <Eyebrow>
             <StatusDot /> YOUR EVERYDAY SOUNDTRACK

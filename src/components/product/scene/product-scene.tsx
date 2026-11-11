@@ -11,11 +11,12 @@ import { useProductStore } from "../store/product-store-provider";
 export default function ProductScene(props: ProductSceneProps) {
   const visible = useSceneVisibility();
   const onError = useProductStore((state) => state.markSceneFailed);
+  const maxDpr = useProductStore((state) => (state.reduced ? 1.25 : state.maxDpr));
   return (
     <SceneBoundary onError={onError}>
       <Canvas
         frameloop={visible ? "demand" : "never"}
-        dpr={[1, 1.5]}
+        dpr={[1, maxDpr]}
         camera={{ position: [0, 0, 9], fov: 35, near: 0.1, far: 50 }}
         gl={{ antialias: true, alpha: true, powerPreference: "low-power" }}
         onCreated={({ gl }) => {

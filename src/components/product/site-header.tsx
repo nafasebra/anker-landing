@@ -20,9 +20,6 @@ export const SiteHeader = memo(function SiteHeader() {
         <a className="transition hover:text-white" href="#features">
           The details
         </a>
-        <a className="transition hover:text-white" href="#explore">
-          Explore in 3D <span className="ml-1 text-blue-400">↗</span>
-        </a>
       </nav>
       <a
         href="#product"

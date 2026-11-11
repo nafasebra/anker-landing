@@ -17,6 +17,7 @@ export const poses: Pose[] = [
     case: 1,
     earbudY: 0.04,
     seat: 0,
+    lay: 0,
   },
   {
     x: 0.9,
@@ -32,6 +33,7 @@ export const poses: Pose[] = [
     case: 1,
     earbudY: 0.076,
     seat: 0,
+    lay: 0,
   },
   {
     x: 1.35,
@@ -47,6 +49,7 @@ export const poses: Pose[] = [
     case: 0,
     earbudY: 0.076,
     seat: 0,
+    lay: 0,
   },
   {
     x: 1.4,
@@ -62,6 +65,7 @@ export const poses: Pose[] = [
     case: 0,
     earbudY: 0.076,
     seat: 0,
+    lay: 0,
   },
   {
     x: 1.4,
@@ -77,6 +81,7 @@ export const poses: Pose[] = [
     case: 0,
     earbudY: 0.076,
     seat: 0,
+    lay: 0,
   },
   {
     x: 1.4,
@@ -92,6 +97,7 @@ export const poses: Pose[] = [
     case: 1,
     earbudY: 0.076,
     seat: 0,
+    lay: 0,
   },
   {
     x: 1.15,
@@ -107,20 +113,22 @@ export const poses: Pose[] = [
     case: 1,
     earbudY: 0.076,
     seat: 0,
+    lay: 0,
   },
   {
     x: -1.55,
     y: -0.05,
-    rx: 0.42,
+    rx: 0.95,
     ry: 0.28,
     rz: -0.08,
     scale: 43,
     center: 0.032,
     buds: 1,
     spread: -0.008,
-    lid: -1.35,
+    lid: -1.6,
     case: 1,
-    earbudY: 0.0284,
+    earbudY: 0.01965,
     seat: 1,
+    lay: 1,
   },
 ];

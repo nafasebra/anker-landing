@@ -6,10 +6,14 @@ let webglAvailable: boolean | undefined;
 
 function getWebglAvailability() {
   if (webglAvailable === undefined) {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("webgl2");
-    webglAvailable = Boolean(context);
-    context?.getExtension("WEBGL_lose_context")?.loseContext();
+    try {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("webgl2");
+      webglAvailable = Boolean(context);
+      context?.getExtension("WEBGL_lose_context")?.loseContext();
+    } catch {
+      webglAvailable = false;
+    }
   }
   return webglAvailable;
 }
@@ -18,9 +22,21 @@ export function useBrowserCapabilities() {
   const store = useProductStoreApi();
   useEffect(() => {
     const media = window.matchMedia(reducedMotionQuery);
-    store.getState().setCapabilities(getWebglAvailability(), media.matches);
-    const updateReduced = () => store.getState().setReducedMotion(media.matches);
-    media.addEventListener("change", updateReduced);
-    return () => media.removeEventListener("change", updateReduced);
+    const coarsePointer = window.matchMedia("(pointer: coarse)");
+    const updateCapabilities = () =>
+      store
+        .getState()
+        .setCapabilities(
+          getWebglAvailability(),
+          media.matches,
+          coarsePointer.matches || (navigator.hardwareConcurrency || 8) <= 4,
+        );
+    updateCapabilities();
+    media.addEventListener("change", updateCapabilities);
+    coarsePointer.addEventListener("change", updateCapabilities);
+    return () => {
+      media.removeEventListener("change", updateCapabilities);
+      coarsePointer.removeEventListener("change", updateCapabilities);
+    };
   }, [store]);
 }
