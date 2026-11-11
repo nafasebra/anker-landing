@@ -2,15 +2,17 @@
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { AvailabilityDialog } from "../availability-dialog";
-const sectionClass =
-  "relative h-svh min-h-[780px] px-[6%] pointer-events-none md:min-h-[700px] md:px-[7.1%] [&_a]:pointer-events-auto [&_button]:pointer-events-auto";
 import { Eyebrow, StatusDot, PrimaryButton } from "../ui";
 export function FinalProductSection() {
   const [open, setOpen] = useState(false);
   const closeDialog = useCallback(() => setOpen(false), []);
   return (
     <>
-      <section id="product" className={sectionClass} aria-labelledby="product-title">
+      <section
+        id="product"
+        className="relative h-svh min-h-[780px] pointer-events-none px-[6%] md:min-h-[700px] md:px-[7.1%] [&_a]:pointer-events-auto [&_button]:pointer-events-auto"
+        aria-labelledby="product-title"
+      >
         <div className="absolute top-[54%] left-[7%] z-20 md:top-[24%] md:left-[58%]">
           <Eyebrow>
             <StatusDot /> YOUR EVERYDAY SOUNDTRACK

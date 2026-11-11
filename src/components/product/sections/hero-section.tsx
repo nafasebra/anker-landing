@@ -1,13 +1,11 @@
 import Link from "next/link";
-const sectionClass =
-  "relative h-svh min-h-[780px] px-[6%] pointer-events-none md:min-h-[700px] md:px-[7.1%] [&_a]:pointer-events-auto [&_button]:pointer-events-auto";
 const tinyLabelClass = "text-sm leading-[1.7] tracking-[1.6px] text-[#9b9da3]";
 import { Eyebrow, StatusDot, PrimaryLink } from "../ui";
 import { ProductBackground } from "../product-background";
 export function HeroSection() {
   return (
     <section
-      className={`${sectionClass} pt-[125px] md:pt-[clamp(130px,16vh,190px)]`}
+      className="relative h-svh min-h-[780px] pointer-events-none px-[6%] pt-[125px] md:min-h-[700px] md:px-[7.1%] md:pt-[clamp(130px,16vh,190px)] [&_a]:pointer-events-auto [&_button]:pointer-events-auto"
       id="overview"
       aria-labelledby="hero-title"
     >

@@ -1,0 +1,150 @@
+diff --git a/dist/events-0dab3c53.cjs.dev.js b/dist/events-0dab3c53.cjs.dev.js
+--- a/dist/events-0dab3c53.cjs.dev.js
++++ b/dist/events-0dab3c53.cjs.dev.js
+@@ -1164,1 +1164,43 @@
++// Backport Timer timing without changing R3F v9's public clock interface.
++// Keep the legacy path for Three.js releases that predate Timer.
++function createTimerClock() {
++  if (typeof THREE__namespace.Timer !== 'function') return new THREE__namespace.Clock();
++  const timer = new THREE__namespace.Timer();
++  return {
++    autoStart: true,
++    startTime: 0,
++    oldTime: 0,
++    elapsedTime: 0,
++    running: false,
++    start() {
++      this.startTime = performance.now();
++      this.oldTime = this.startTime;
++      this.elapsedTime = 0;
++      this.running = true;
++      timer.reset();
++    },
++    stop() {
++      this.getElapsedTime();
++      this.running = false;
++      this.autoStart = false;
++    },
++    getElapsedTime() {
++      this.getDelta();
++      return this.elapsedTime;
++    },
++    getDelta() {
++      if (this.autoStart && !this.running) {
++        this.start();
++        return 0;
++      }
++      if (!this.running) return 0;
++      timer.update();
++      const delta = timer.getDelta();
++      this.oldTime = performance.now();
++      this.elapsedTime += delta;
++      return delta;
++    }
++  };
++}
++
+ const createStore = (invalidate, advance) => {
+@@ -1232,1 +1274,1 @@
+-      clock: new THREE__namespace.Clock(),
++      clock: createTimerClock(),
+diff --git a/dist/events-98e95d43.cjs.prod.js b/dist/events-98e95d43.cjs.prod.js
+--- a/dist/events-98e95d43.cjs.prod.js
++++ b/dist/events-98e95d43.cjs.prod.js
+@@ -1164,1 +1164,43 @@
++// Backport Timer timing without changing R3F v9's public clock interface.
++// Keep the legacy path for Three.js releases that predate Timer.
++function createTimerClock() {
++  if (typeof THREE__namespace.Timer !== 'function') return new THREE__namespace.Clock();
++  const timer = new THREE__namespace.Timer();
++  return {
++    autoStart: true,
++    startTime: 0,
++    oldTime: 0,
++    elapsedTime: 0,
++    running: false,
++    start() {
++      this.startTime = performance.now();
++      this.oldTime = this.startTime;
++      this.elapsedTime = 0;
++      this.running = true;
++      timer.reset();
++    },
++    stop() {
++      this.getElapsedTime();
++      this.running = false;
++      this.autoStart = false;
++    },
++    getElapsedTime() {
++      this.getDelta();
++      return this.elapsedTime;
++    },
++    getDelta() {
++      if (this.autoStart && !this.running) {
++        this.start();
++        return 0;
++      }
++      if (!this.running) return 0;
++      timer.update();
++      const delta = timer.getDelta();
++      this.oldTime = performance.now();
++      this.elapsedTime += delta;
++      return delta;
++    }
++  };
++}
++
+ const createStore = (invalidate, advance) => {
+@@ -1232,1 +1274,1 @@
+-      clock: new THREE__namespace.Clock(),
++      clock: createTimerClock(),
+diff --git a/dist/events-e51d7528.esm.js b/dist/events-e51d7528.esm.js
+--- a/dist/events-e51d7528.esm.js
++++ b/dist/events-e51d7528.esm.js
+@@ -1139,1 +1139,43 @@
++// Backport Timer timing without changing R3F v9's public clock interface.
++// Keep the legacy path for Three.js releases that predate Timer.
++function createTimerClock() {
++  if (typeof THREE.Timer !== 'function') return new THREE.Clock();
++  const timer = new THREE.Timer();
++  return {
++    autoStart: true,
++    startTime: 0,
++    oldTime: 0,
++    elapsedTime: 0,
++    running: false,
++    start() {
++      this.startTime = performance.now();
++      this.oldTime = this.startTime;
++      this.elapsedTime = 0;
++      this.running = true;
++      timer.reset();
++    },
++    stop() {
++      this.getElapsedTime();
++      this.running = false;
++      this.autoStart = false;
++    },
++    getElapsedTime() {
++      this.getDelta();
++      return this.elapsedTime;
++    },
++    getDelta() {
++      if (this.autoStart && !this.running) {
++        this.start();
++        return 0;
++      }
++      if (!this.running) return 0;
++      timer.update();
++      const delta = timer.getDelta();
++      this.oldTime = performance.now();
++      this.elapsedTime += delta;
++      return delta;
++    }
++  };
++}
++
+ const createStore = (invalidate, advance) => {
+@@ -1207,1 +1249,1 @@
+-      clock: new THREE.Clock(),
++      clock: createTimerClock(),
