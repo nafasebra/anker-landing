@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# Soundcore R50i product experience
 
-## Getting Started
+A Next.js / React / TypeScript landing page styled with Tailwind CSS, with one continuous React Three Fiber scene, Drei studio lighting and controls, and GSAP ScrollTrigger storytelling.
 
-First, run the development server:
+## Run locally
 
-```bash
+```sh
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. For production, run `npm run build` and `npm start`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Edit the experience
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/components/product-experience.tsx`: semantic page content, editable feature copy, navigation, availability dialog, and projected HTML/SVG callouts.
+- `src/components/product-scene.tsx`: scene poses, lighting, model animation, projection, and section-scoped rotation controls.
+- `src/app/globals.css`: Tailwind import, theme tokens, shared accessibility defaults, and the label entrance animation. Component layouts and responsive styling use Tailwind utilities in the JSX.
+- `public/models/soundcore-r50i.glb`: supplied asset served at the requested public URL. The original source asset is retained in `src/app`.
+- `public/product-fallback.svg`: local static illustration for unsupported WebGL or loading errors.
 
-## Learn More
+No price, discount, stock status, battery duration, driver size, IP rating, or ANC claim is supplied. Feature copy is editorial placeholder copy for review; technical specifications should be added only after verification. The availability CTA opens a dialog linking to Soundcore's home page rather than an unverified purchase listing.
 
-To learn more about Next.js, take a look at the following resources:
+## Model inspection and animation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The updated GLB uses meters with Y up and front at +Z. `Case_Base`, `Case_Lid`, `Lid_Hinge`, `Earbud_Left`, and `Earbud_Right` are present. The lid belongs to `Lid_Hinge`, whose pivot is approximately `(0, 0.0226, -0.020)`; opening uses negative X rotation. The asset's earbud parents start around Y=0.062; the presentation explicitly sets their animated positions. Their child components remain attached throughout animation. The sound callout targets `Left_Organic_Housing` and the touch callout targets `Left_Touch_Surface` in this asset.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The hero starts with the lid open and a slight tilt to show the earbuds resting in the case. During reveal, the earbuds rise from the case as their parent transforms spread apart. The updated asset includes a charging tray, wells, and pins. The presentation retains the low front angle, and the case recedes before closeups. The case is closed again for free exploration. The model URL includes a content-version query to refresh cached copies after replacement.
 
-## Deploy on Vercel
+Rendering uses demand mode, a capped 1.5 pixel ratio, a small locally generated environment map, no postprocessing, and a visibility listener to pause hidden-tab rendering. Reduced motion keeps a stable assembled composition and disables pointer tilt and entrance effects. Mobile places copy below the model, fits the model to the available viewport width, and preserves vertical touch scrolling. Rotation also has keyboard-accessible arrow buttons on desktop, plus a reset control.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Validation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Production build includes TypeScript checks. The root-level `types/` folder contains stale generated starter validators with incorrect relative imports, so it is excluded from TypeScript; Next.js continues to generate and validate the current route types under `.next/types`.

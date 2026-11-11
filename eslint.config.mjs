@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated starter validators; current route types live under .next/types.
+    "types/**",
   ]),
 ]);
 
