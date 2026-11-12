@@ -10,6 +10,8 @@ const eslintConfig = defineConfig([
     // Default ignores of eslint-config-next:
     ".next/**",
     ".npm-cache/**",
+    // Vendored Draco decoders are generated third-party assets.
+    "public/draco/**",
     "out/**",
     "build/**",
     "next-env.d.ts",

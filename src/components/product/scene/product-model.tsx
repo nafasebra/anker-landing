@@ -19,7 +19,7 @@ export function ProductModel({ onAnchor }: ProductSceneProps) {
   const store = useProductStoreApi();
   const reduced = useProductStore((state) => state.reduced);
   const onLoaded = useProductStore((state) => state.markLoaded);
-  const { scene } = useGLTF(MODEL_URL);
+  const { scene } = useGLTF(MODEL_URL, "/draco/");
   const { invalidate, viewport, camera, size } = useThree();
   const group = useRef<THREE.Group>(null);
   const timer = useRef<THREE.Timer | null>(null);

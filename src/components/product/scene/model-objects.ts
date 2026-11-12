@@ -1,10 +1,6 @@
 ﻿import * as THREE from "three";
 
-export const featurePartNames = [
-  "Left_Organic_Housing",
-  "Left_Silicone_Tip",
-  "Left_Touch_Surface",
-] as const;
+export const featurePartNames = ["Left_Organic_Housing", "Left_Silicone_Tip", "Left_Stem"] as const;
 
 export function createModelObjects(scene: THREE.Group) {
   const model = scene.clone(true);
