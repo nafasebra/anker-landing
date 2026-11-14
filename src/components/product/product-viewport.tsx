@@ -1,4 +1,5 @@
 "use client";
+
 import { memo } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -6,12 +7,16 @@ import type { ProductSceneProps } from "./types";
 import { useProductStore } from "./store/product-store-provider";
 import { selectAvailable } from "./store/product-store";
 import { useModelReveal } from "./hooks/use-model-reveal";
+import { useDeferredScene } from "./hooks/use-deferred-scene";
+
 const ProductScene = dynamic(() => import("./scene/product-scene"), { ssr: false });
 
 export const ProductViewport = memo(function ProductViewport({ onAnchor }: ProductSceneProps) {
   const available = useProductStore(selectAvailable);
   const loaded = useProductStore((state) => state.loaded);
+  const sceneReady = useDeferredScene();
   const { root, scene, loader } = useModelReveal(available === true && loaded);
+ 
   return (
     <div
       ref={root}
@@ -19,7 +24,7 @@ export const ProductViewport = memo(function ProductViewport({ onAnchor }: Produ
       aria-label="3D Soundcore R50i product visualization"
     >
       <div className="absolute top-[12%] left-[14%] h-[90%] w-[85%] rounded-full bg-[radial-gradient(ellipse,#41577519,#23272d17_40%,transparent_68%)]" />
-      {available === true && (
+      {available === true && sceneReady && (
         <div ref={scene} className="absolute inset-0 opacity-0">
           <ProductScene onAnchor={onAnchor} />
         </div>

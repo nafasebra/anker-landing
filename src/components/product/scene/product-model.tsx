@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
@@ -15,6 +16,10 @@ import {
 import { createPoseTimeline, poseKeys, type PoseTimeline } from "./pose-timeline";
 import { useGSAP } from "../animations/gsap";
 import { useProductStore, useProductStoreApi } from "../store/product-store-provider";
+import { useProductFrameTimer } from "./use-product-frame-timer";
+
+const ANCHOR_UPDATE_THRESHOLD = 0.1;
+
 export function ProductModel({ onAnchor }: ProductSceneProps) {
   const store = useProductStoreApi();
   const reduced = useProductStore((state) => state.reduced);
@@ -22,24 +27,14 @@ export function ProductModel({ onAnchor }: ProductSceneProps) {
   const { scene } = useGLTF(MODEL_URL, "/draco/");
   const { invalidate, viewport, camera, size } = useThree();
   const group = useRef<THREE.Group>(null);
-  const timer = useRef<THREE.Timer | null>(null);
+  const timer = useProductFrameTimer(invalidate);
   const current = useRef<Pose>({ ...poses[0] });
   const anchor = useMemo(() => new THREE.Vector3(), []);
+  const lastAnchor = useRef(new THREE.Vector2(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY));
   const targetPose = useRef<Pose>({ ...poses[0] });
   const poseTimeline = useRef<PoseTimeline | null>(null);
   const animatedObjects = useRef<ModelObjects | null>(null);
-
-  useEffect(() => {
-    const frameTimer = new THREE.Timer();
-    frameTimer.connect(document);
-    frameTimer.reset();
-    timer.current = frameTimer;
-    invalidate();
-    return () => {
-      timer.current = null;
-      frameTimer.dispose();
-    };
-  }, [invalidate]);
+  const waitingForFirstFrame = useRef(false);
 
   useGSAP(
     () => {
@@ -56,27 +51,23 @@ export function ProductModel({ onAnchor }: ProductSceneProps) {
     if (!root) return;
     const objects = createModelObjects(scene);
     animatedObjects.current = objects;
+    waitingForFirstFrame.current = true;
     root.add(objects.model);
     const unsubscribe = store.subscribe((next, previous) => {
-      if (
-        next.phase !== previous.phase ||
-        next.pointerX !== previous.pointerX ||
-        next.pointerY !== previous.pointerY
-      )
-        invalidate();
+      if (next.phase !== previous.phase) invalidate();
     });
     const onVisibilityChange = () => invalidate();
     document.addEventListener("visibilitychange", onVisibilityChange);
-    onLoaded();
     invalidate();
     return () => {
       unsubscribe();
       document.removeEventListener("visibilitychange", onVisibilityChange);
       root.remove(objects.model);
       animatedObjects.current = null;
+      waitingForFirstFrame.current = false;
       objects.materials.forEach((material) => material.dispose());
     };
-  }, [invalidate, store, scene, onLoaded]);
+  }, [invalidate, store, scene]);
   useEffect(() => {
     invalidate();
   }, [reduced, invalidate]);
@@ -110,7 +101,11 @@ export function ProductModel({ onAnchor }: ProductSceneProps) {
       current.current[key] = THREE.MathUtils.lerp(current.current[key], target[key], lerp);
       difference += Math.abs(current.current[key] - target[key]);
     }
-    applyProductPose(group.current, animatedObjects.current, current.current, motion, reduced);
+    applyProductPose(group.current, animatedObjects.current, current.current, motion);
+    if (waitingForFirstFrame.current) {
+      waitingForFirstFrame.current = false;
+      onLoaded();
+    }
     const highlight = phase > 1.7 && phase < 4.7 ? Math.round(phase) : -1;
     const partName = featurePartNames[highlight - 2] ?? "";
     highlightProductPart(animatedObjects.current, partName);
@@ -120,15 +115,19 @@ export function ProductModel({ onAnchor }: ProductSceneProps) {
         group.current.updateWorldMatrix(true, true);
         part.getWorldPosition(anchor);
         anchor.project(camera);
-        onAnchor((anchor.x * 0.5 + 0.5) * 100, (-anchor.y * 0.5 + 0.5) * 100);
+        const x = (anchor.x * 0.5 + 0.5) * 100;
+        const y = (-anchor.y * 0.5 + 0.5) * 100;
+        if (
+          Math.abs(lastAnchor.current.x - x) > ANCHOR_UPDATE_THRESHOLD ||
+          Math.abs(lastAnchor.current.y - y) > ANCHOR_UPDATE_THRESHOLD
+        ) {
+          lastAnchor.current.set(x, y);
+          onAnchor(x, y);
+        }
       }
     }
     if (difference > 0.002) invalidate();
   });
 
-  return (
-    <>
-      <group ref={group} dispose={null} />
-    </>
-  );
+  return <group ref={group} dispose={null} />;
 }

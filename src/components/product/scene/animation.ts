@@ -32,13 +32,11 @@ export function applyProductPose(
   objects: ModelObjects,
   p: Pose,
   motion: SceneMotion,
-  reduced: boolean,
 ) {
   const { model, left, right, hinge, caseGroup } = objects;
   const phase = THREE.MathUtils.clamp(motion.phase, 0, 7);
   group.position.set(p.x, p.y, 0);
-  const pointer = !reduced && phase < 1 ? motion.pointerX : 0;
-  group.rotation.set(p.rx + (phase < 1 && !reduced ? motion.pointerY : 0), p.ry + pointer, p.rz);
+  group.rotation.set(p.rx, p.ry, p.rz);
   group.scale.setScalar(p.scale);
   model.position.y = -p.center;
   left.visible = right.visible = p.buds > 0.02;

@@ -30,24 +30,6 @@ export function useProductScroll() {
       const media = gsap.matchMedia();
       media.add("(prefers-reduced-motion: no-preference)", () => {
         animateFeatureLabels(element);
-        let pointerFrame = 0;
-        let pointerX = 0;
-        let pointerY = 0;
-        const pointer = (event: PointerEvent) => {
-          if (event.pointerType !== "mouse" || store.getState().phase > 0.9) return;
-          pointerX = (event.clientX / window.innerWidth - 0.5) * 0.15;
-          pointerY = (event.clientY / window.innerHeight - 0.5) * 0.08;
-          if (!pointerFrame)
-            pointerFrame = requestAnimationFrame(() => {
-              pointerFrame = 0;
-              if (store.getState().phase <= 0.9) store.getState().setPointer(pointerX, pointerY);
-            });
-        };
-        window.addEventListener("pointermove", pointer, { passive: true });
-        return () => {
-          window.removeEventListener("pointermove", pointer);
-          cancelAnimationFrame(pointerFrame);
-        };
       });
 
       let active = true;

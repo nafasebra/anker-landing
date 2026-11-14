@@ -13,7 +13,6 @@ export type ProductState = SceneMotion & {
 
 type ProductActions = {
   setPhase: (phase: number) => void;
-  setPointer: (pointerX: number, pointerY: number) => void;
   setCapabilities: (supported: boolean, reduced: boolean, lowPower?: boolean) => void;
   setReducedMotion: (reduced: boolean) => void;
   markLoaded: () => void;
@@ -27,8 +26,6 @@ export type ProductStore = ProductState & ProductActions;
 export function createProductStore() {
   return createStore<ProductStore>()((set) => ({
     phase: 0,
-    pointerX: 0,
-    pointerY: 0,
     reduced: false,
     supported: null,
     loaded: false,
@@ -40,10 +37,6 @@ export function createProductStore() {
         const next = Math.min(7, Math.max(0, phase));
         return Number.isFinite(next) && next !== state.phase ? { phase: next } : state;
       }),
-    setPointer: (pointerX, pointerY) =>
-      set((state) =>
-        state.pointerX === pointerX && state.pointerY === pointerY ? state : { pointerX, pointerY },
-      ),
     setCapabilities: (supported, reduced, lowPower = false) =>
       set((state) => {
         const maxDpr = lowPower ? 1.25 : 1.5;

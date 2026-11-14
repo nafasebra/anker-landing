@@ -1,4 +1,4 @@
-export type SceneMotion = { phase: number; pointerX: number; pointerY: number };
+export type SceneMotion = { phase: number };
 export type ProductSceneProps = { onAnchor: (x: number, y: number) => void };
 
 export type Pose = {
