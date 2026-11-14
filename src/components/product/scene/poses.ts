@@ -1,7 +1,7 @@
 import type { Pose } from "../types";
 // Inspected GLB: meters, Y up, front +Z. Lid_Hinge opens around -X.
 // Updated asset includes a charging tray and wells; retain the low-angle reveal.
-export const MODEL_URL = "/models/soundcore-r50i-optimized.glb";
+export const MODEL_URL = "/models/soundcore-r50i-optimized.glb?v=shared-meshes-1";
 export const poses: Pose[] = [
   {
     x: 0,

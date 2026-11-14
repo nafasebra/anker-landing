@@ -26,15 +26,22 @@ for (const name of [
 }
 
 // Node hierarchy and local transforms determine the lid hinge and earbud poses.
-assert.deepEqual(compressed.nodes, source.nodes);
+assert.equal(compressed.nodes.length, source.nodes.length);
+for (let i = 0; i < source.nodes.length; i++) {
+  const { mesh: sourceMesh, ...original } = source.nodes[i];
+  const { mesh: compressedMesh, ...optimized } = compressed.nodes[i];
+  assert.deepEqual(optimized, original);
+  assert.equal(typeof compressedMesh, typeof sourceMesh);
+}
 assert.deepEqual(compressed.scenes, source.scenes);
 assert.deepEqual(compressed.materials, source.materials);
-assert.equal(compressed.meshes.length, source.meshes.length);
+assert.ok(compressed.meshes.length <= source.meshes.length);
 assert.ok(compressed.extensionsRequired.includes("KHR_draco_mesh_compression"));
 
-for (let i = 0; i < source.meshes.length; i++) {
-  const original = source.meshes[i].primitives;
-  const optimized = compressed.meshes[i].primitives;
+for (let i = 0; i < source.nodes.length; i++) {
+  if (source.nodes[i].mesh === undefined) continue;
+  const original = source.meshes[source.nodes[i].mesh].primitives;
+  const optimized = compressed.meshes[compressed.nodes[i].mesh].primitives;
   assert.equal(optimized.length, original.length);
   for (let j = 0; j < original.length; j++) {
     assert.equal(optimized[j].material, original[j].material);
@@ -50,3 +57,4 @@ for (let i = 0; i < source.meshes.length; i++) {
 }
 
 console.log("Compressed model preserves nodes, transforms, materials, and mesh bounds.");
+console.log(`Unique meshes: ${source.meshes.length} → ${compressed.meshes.length}`);
