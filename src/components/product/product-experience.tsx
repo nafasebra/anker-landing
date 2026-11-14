@@ -1,23 +1,15 @@
 "use client";
+
 import Link from "next/link";
-import { ProductStoreProvider } from "./store/product-store-provider";
+import type { ReactNode } from "react";
 import { useBrowserCapabilities } from "./hooks/use-browser-capabilities";
 import { useProductScroll } from "./hooks/use-product-scroll";
 import { useProductAnchor } from "./hooks/use-product-anchor";
-import { SiteHeader } from "./site-header";
 import { ProductViewport } from "./product-viewport";
-import { ProductSections } from "./sections/product-sections";
 import { FeatureCallout } from "./feature-callout";
 import { FeatureNavigation } from "./feature-navigation";
-export default function ProductExperience() {
-  return (
-    <ProductStoreProvider>
-      <ProductPage />
-    </ProductStoreProvider>
-  );
-}
 
-function ProductPage() {
+export default function ProductExperience({ children }: { children: ReactNode }) {
   useBrowserCapabilities();
   const root = useProductScroll();
   const { connector, hotspot, onAnchor } = useProductAnchor();
@@ -29,11 +21,8 @@ function ProductPage() {
       >
         Skip to product features
       </Link>
-      <SiteHeader />
       <ProductViewport onAnchor={onAnchor} />
-      <main ref={root}>
-        <ProductSections />
-      </main>
+      <main ref={root}>{children}</main>
       <FeatureCallout connector={connector} hotspot={hotspot} />
       <FeatureNavigation />
     </>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 export const SiteHeader = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex h-18.75 items-center md:h-22 justify-between gap-3 border-b border-white/8 bg-[linear-gradient(#101113e8,#10111360)] px-4 backdrop-blur-[12px] sm:px-6 md:px-12">

@@ -1,8 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { AvailabilityDialog } from "../availability-dialog";
+import dynamic from "next/dynamic";
 import { Eyebrow, StatusDot, PrimaryButton } from "../ui";
+
+const AvailabilityDialog = dynamic(() =>
+  import("../availability-dialog").then((module) => module.AvailabilityDialog),
+);
 export function FinalProductSection() {
   const [open, setOpen] = useState(false);
   const closeDialog = useCallback(() => setOpen(false), []);
@@ -49,7 +53,7 @@ export function FinalProductSection() {
           <Link href="#overview">Back to top ↑</Link>
         </footer>
       </section>
-      <AvailabilityDialog open={open} onClose={closeDialog} />
+      {open && <AvailabilityDialog open={open} onClose={closeDialog} />}
     </>
   );
 }
