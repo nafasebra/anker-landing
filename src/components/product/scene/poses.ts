@@ -2,23 +2,25 @@ import type { Pose } from "../types";
 // Inspected GLB: meters, Y up, front +Z. Lid_Hinge opens around -X.
 // Updated asset includes a charging tray and wells; retain the low-angle reveal.
 export const MODEL_URL = "/models/soundcore-r50i-optimized.glb?v=shared-meshes-1";
+const heroPose: Pose = {
+  x: 0,
+  y: -0.7,
+  rx: 0.42,
+  ry: -0.32,
+  rz: -0.06,
+  scale: 40,
+  center: 0.027,
+  buds: 1,
+  spread: 0,
+  lid: -1.35,
+  case: 1,
+  earbudY: 0.04,
+  seat: 0,
+  lay: 0,
+};
+
 export const poses: Pose[] = [
-  {
-    x: 0,
-    y: -0.7,
-    rx: 0.42,
-    ry: -0.32,
-    rz: -0.06,
-    scale: 40,
-    center: 0.027,
-    buds: 1,
-    spread: 0,
-    lid: -1.35,
-    case: 1,
-    earbudY: 0.04,
-    seat: 0,
-    lay: 0,
-  },
+  heroPose,
   {
     x: 0.9,
     y: -0.5,
@@ -116,19 +118,8 @@ export const poses: Pose[] = [
     lay: 0,
   },
   {
+    ...heroPose,
     x: -1.55,
     y: -0.05,
-    rx: 0.95,
-    ry: 0.28,
-    rz: -0.08,
-    scale: 43,
-    center: 0.032,
-    buds: 1,
-    spread: -0.008,
-    lid: -1.6,
-    case: 1,
-    earbudY: 0.01965,
-    seat: 1,
-    lay: 1,
   },
 ];

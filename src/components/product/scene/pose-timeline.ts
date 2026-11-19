@@ -13,12 +13,11 @@ export function createPoseTimeline() {
     const next = poses[index + 1];
     const start = index + 0.15;
     if (index === 6) {
-      const { lid, earbudY, spread, seat, lay, ...composition } = next;
+      const { lid, earbudY, spread, ...composition } = next;
       timeline.to(pose, { ...composition, duration: 0.7 }, start);
       timeline.to(pose, { lid, duration: 0.3 }, start);
-      // Turn the earbuds flat while elevated, then settle them into their wells.
-      timeline.to(pose, { lay, duration: 0.28 }, 6.35);
-      timeline.to(pose, { earbudY, spread, seat, duration: 0.3 }, 6.55);
+      // Open the lid before lowering the earbuds into the hero arrangement.
+      timeline.to(pose, { earbudY, spread, duration: 0.4 }, 6.45);
     } else {
       timeline.to(pose, { ...next, duration: 0.7 }, start);
     }
