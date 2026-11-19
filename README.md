@@ -25,6 +25,37 @@ Open http://localhost:3000. For production, run `npm run build` and `npm start`.
 - `public/models/soundcore-r50i.glb`: supplied asset served at the requested public URL. The original source asset is retained in `src/app`.
 - `public/product-fallback.svg`: local static illustration for unsupported WebGL or loading errors.
 
+## Technical decisions
+
+### Technology choices
+
+- **Next.js App Router and React** provide the page structure, static rendering, route metadata, and client boundaries. The product experience is a client component because it coordinates browser events, scroll progress, and WebGL.
+- **TypeScript** defines the contracts shared by the scene, pose animation, and page state so model and UI changes stay aligned.
+- **Tailwind CSS** keeps responsive layout and component styling close to the sections that use them. `src/app/globals.css` contains the Tailwind import, theme tokens, shared accessibility defaults, and the small set of global animation rules.
+- **Three.js and React Three Fiber** render the GLB as one continuous scene. Drei is used for GLTF loading and Draco decoding. The presentation does not use orbit controls because scroll drives the product composition.
+- **GSAP, ScrollTrigger, and `@gsap/react`** coordinate chapter progress and DOM label transitions. `useGSAP` scopes and cleans up timelines and triggers with their React lifecycle.
+- **Zustand** stores state shared across the page, including scroll phase, capability flags, reduced motion, loading, errors, and rendering quality. Its store is created per page experience. Transient dialog state and DOM references stay local to their components.
+
+### Architecture
+
+The page is divided into four cooperating layers:
+
+1. **Page composition** — `src/app/page.tsx` renders the product experience and its sections. `product-experience.tsx` connects the shared store, scroll controller, viewport, callout, and feature navigation.
+2. **Sections and presentation** — `sections/` contains the hero, reveal, feature, explore, and final sections. `feature-callout.tsx`, `feature-navigation.tsx`, and `availability-dialog.tsx` own focused interface elements.
+3. **Browser and animation logic** — `hooks/` manages capability detection, deferred scene loading, visibility, scroll-to-phase mapping, and callout anchors. `animations/` owns GSAP setup and chapter/label timelines. `store/` owns shared page state.
+4. **3D scene** — `product-viewport.tsx` reserves the screen overlay and loading fallback. It dynamically loads `scene/product-scene.tsx` without server rendering. `product-model.tsx` loads and clones the model objects, then applies scroll-selected poses in the frame loop. `poses.ts`, `pose-timeline.ts`, `animation.ts`, and `model-objects.ts` separate pose data, interpolation, transforms, and model-part/material setup.
+
+ScrollTrigger maps measured section positions to a normalized phase in the page-scoped store. The Three.js frame loop reads that phase directly, seeks a paused GSAP pose timeline, and updates the model without React state updates per frame. The canvas uses demand rendering and pauses while offscreen. The scene is deferred until browser idle or the first scroll, which lets the initial page content render before WebGL setup begins.
+
+### Rendering and accessibility tradeoffs
+
+- **One shared canvas** keeps transitions continuous between sections and avoids loading a separate scene for each chapter. The model remains behind semantic HTML, so headings, descriptions, and calls to action remain available independently of WebGL.
+- **A static fallback and loading status** keep the product visible while the model loads and when WebGL is unavailable. Reduced-motion settings select a stable composition and reduce rendering quality where appropriate.
+- **No postprocessing or orbit controls** keeps the render path and interaction model focused on scroll storytelling. Product rotation is scripted by the pose timeline.
+- **Model parts are cloned once per scene instance.** Geometry is shared from the GLTF loader cache, while materials that need independent highlighting are cloned and disposed with the scene.
+
+When replacing the GLB, inspect the node names and hinge pivot before changing the pose data. Keep product claims in `features.ts` as editorial placeholders until specifications have been verified.
+
 No price, discount, stock status, battery duration, driver size, IP rating, or ANC claim is supplied. Feature copy is editorial placeholder copy for review; technical specifications should be added only after verification. The availability CTA opens a dialog linking to Soundcore's home page rather than an unverified purchase listing.
 
 ## Model inspection and animation
