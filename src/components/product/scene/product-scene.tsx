@@ -17,6 +17,8 @@ export default function ProductScene(props: ProductSceneProps) {
   return (
     <SceneBoundary onError={onError}>
       <Canvas
+        role="img"
+        aria-label="3D Soundcore R50i product visualization"
         frameloop={visible ? "demand" : "never"}
         dpr={[1, maxDpr]}
         camera={{ position: [0, 0, 9], fov: 35, near: 0.1, far: 50 }}

@@ -27,8 +27,6 @@ export const ProductViewport = memo(function ProductViewport({ onAnchor }: Produ
         <div
           ref={scene}
           className="absolute inset-0 opacity-0"
-          role="img"
-          aria-label="3D Soundcore R50i product visualization"
         >
           <ProductScene onAnchor={onAnchor} />
         </div>
