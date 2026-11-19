@@ -21,11 +21,15 @@ export const ProductViewport = memo(function ProductViewport({ onAnchor }: Produ
     <div
       ref={root}
       className="pointer-events-none fixed inset-0 z-10 h-svh [&_canvas]:relative [&_canvas]:z-[1]"
-      aria-label="3D Soundcore R50i product visualization"
     >
       <div className="absolute top-[12%] left-[14%] h-[90%] w-[85%] rounded-full bg-[radial-gradient(ellipse,#41577519,#23272d17_40%,transparent_68%)]" />
       {available === true && sceneReady && (
-        <div ref={scene} className="absolute inset-0 opacity-0">
+        <div
+          ref={scene}
+          className="absolute inset-0 opacity-0"
+          role="img"
+          aria-label="3D Soundcore R50i product visualization"
+        >
           <ProductScene onAnchor={onAnchor} />
         </div>
       )}
