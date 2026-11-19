@@ -6,7 +6,6 @@ export const SiteHeader = () => {
       <Link
         href="#"
         className="relative pb-4 text-[22px] leading-none font-bold tracking-[-1.3px] md:text-[25px] [&_small]:absolute [&_small]:-bottom-px [&_small]:left-px [&_small]:text-sm [&_small]:font-normal [&_small]:tracking-[1.7px]"
-        aria-label="Soundcore home"
       >
         soundcore<span className="ml-0.5 inline-block -rotate-40 text-[26px]">◔</span>
         <small>by Anker</small>

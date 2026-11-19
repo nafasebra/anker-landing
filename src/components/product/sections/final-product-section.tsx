@@ -41,14 +41,14 @@ export function FinalProductSection() {
             Check availability <span aria-hidden="true">↗</span>
           </PrimaryButton>
           <span
-            className={"mt-5 hidden text-sm leading-[1.7] tracking-[1.6px] text-white/35 md:block"}
+            className={"mt-5 hidden text-sm leading-[1.7] tracking-[1.6px] text-white/65 md:block"}
           >
             GRAPHITE BLACK · BY ANKER
           </span>
         </div>
-        <footer className="absolute inset-x-[3.5%] bottom-0 z-20 flex items-center justify-between border-t border-[#ffffff10] px-[3%] py-5 text-sm text-[#727780] md:px-[3.8%] md:py-[27px] [&>a:first-child]:text-[15px] [&>a:first-child]:text-[#ddd] md:[&>a:first-child]:text-lg [&>span]:hidden md:[&>span]:inline">
+        <footer className="absolute inset-x-[3.5%] bottom-0 z-20 flex items-center justify-between border-t border-[#ffffff10] px-[3%] py-5 text-sm text-[#a5abb4] md:px-[3.8%] md:py-[27px] [&>a:first-child]:text-[15px] [&>a:first-child]:text-[#ddd] md:[&>a:first-child]:text-lg [&>span]:hidden md:[&>span]:inline">
           <Link href="#" className="font-semibold tracking-tight">
-            soundcore <span className="text-white/35 font-normal text-sm">by Anker</span>
+            soundcore <span className="text-white/65 font-normal text-sm">by Anker</span>
           </Link>
           <Link href="#overview">Back to top ↑</Link>
         </footer>
